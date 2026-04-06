@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SYS.PORTFOLIO // Tresor Kaseka</title>
+    <meta name="description" content="Portfolio of Tresor Kaseka, Software & AI Engineer based in DRC.">
+    
+    <!-- Preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    <link href="https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* CSS Variables - Industrial Theme Tokens */
+        :root {
+            --bg-base: #050505;
+            --bg-surface: #0a0a0b;
+            --bg-surface-hover: #121214;
+            --border-primary: #27272a;
+            --border-highlight: #3f3f46;
+            
+            --text-primary: #fafafa;
+            --text-secondary: #a1a1aa;
+            --text-tertiary: #52525b;
+            
+            --accent-primary: #eab308;
+            --accent-bg: rgba(234, 179, 8, 0.1);
+            
+            --font-mono: 'JetBrains Mono', monospace;
+            --font-display: 'Clash Display', sans-serif;
+            
+            --text-xs: 0.75rem;
+            --text-sm: 0.875rem;
+            --text-base: 1rem;
+            --text-lg: 1.125rem;
+            --text-xl: 1.5rem;
+            --text-2xl: 2rem;
+            --text-3xl: 3rem;
+            --text-4xl: 4.5rem;
+            
+            --sp-1: 0.25rem;
+            --sp-2: 0.5rem;
+            --sp-3: 0.75rem;
+            --sp-4: 1rem;
+            --sp-6: 1.5rem;
+            --sp-8: 2rem;
+            --sp-12: 3rem;
+            --sp-16: 4rem;
+            
+            --transition-fast: 150ms cubic-bezier(0.16, 1, 0.3, 1);
+            --transition-smooth: 300ms cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font-mono);
+            font-size: var(--text-base);
+            line-height: 1.6;
+            color: var(--text-primary);
+            background-color: var(--bg-base);
+            background-image: 
+                linear-gradient(to right, var(--border-primary) 1px, transparent 1px),
+                linear-gradient(to bottom, var(--border-primary) 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-position: center top;
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+
+        ::selection {
+            background-color: var(--accent-primary);
+            color: var(--bg-base);
+        }
+
+        h1, h2, h3, h4 {
+            font-family: var(--font-display);
+            text-transform: uppercase;
+            font-weight: 600;
+            line-height: 1.1;
+            letter-spacing: 0.02em;
+        }
+
+        a, button {
+            text-decoration: none;
+            color: inherit;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            font-family: inherit;
+        }
+
+        button {
+            background: none;
+            border: none;
+        }
+
+        .wrapper {
+            max-width: 1400px;
+            margin: 0 auto;
+            border-left: 1px solid var(--border-primary);
+            border-right: 1px solid var(--border-primary);
+            background: var(--bg-base);
+            position: relative;
+        }
+
+        .u-mono-label {
+            font-size: var(--text-xs);
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            display: flex;
+            align-items: center;
+            gap: var(--sp-2);
+        }
+
+        .u-mono-label::before {
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: var(--accent-primary);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--sp-2);
+            padding: var(--sp-2) var(--sp-4);
+            font-size: var(--text-sm);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 700;
+            border: 1px solid var(--text-primary);
+            background: transparent;
+            color: var(--text-primary);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--text-primary);
+            transform: scaleX(0); transform-origin: right;
+            transition: transform var(--transition-smooth);
+            z-index: -1;
+        }
+
+        .btn:hover { color: var(--bg-base); }
+        .btn:hover::before { transform: scaleX(1); transform-origin: left; }
+
+        .btn-accent { border-color: var(--accent-primary); color: var(--accent-primary); }
+        .btn-accent::before { background: var(--accent-primary); }
+
+        /* Navbar */
+        nav {
+            border-bottom: 1px solid var(--border-primary);
+            position: sticky;
+            top: 0;
+            background: var(--bg-surface);
+            z-index: 100;
+        }
+
+        .nav-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 4rem;
+        }
+
+        .nav-logo {
+            font-weight: 700;
+            font-size: var(--text-lg);
+            padding: 0 var(--sp-6);
+            display: flex;
+            height: 100%;
+            align-items: center;
+            border-right: 1px solid var(--border-primary);
+        }
+
+        .nav-logo span {
+            color: var(--accent-primary);
+            margin-right: var(--sp-2);
+        }
+
+        .nav-controls {
+            display: flex;
+            height: 100%;
+        }
+        
+        .lang-switcher {
+            display: flex;
+            align-items: center;
+            border-left: 1px solid var(--border-primary);
+            padding: 0 var(--sp-4);
+        }
+
+        .lang-btn {
+            font-size: var(--text-xs);
+            color: var(--text-tertiary);
+            padding: var(--sp-1) var(--sp-2);
+            font-weight: 700;
+            transition: color var(--transition-fast);
+        }
+
+        .lang-btn.active {
+            color: var(--accent-primary);
+        }
+
+        .nav-links { display: flex; height: 100%; }
+        .nav-links a {
+            padding: 0 var(--sp-6);
+            display: flex;
+            align-items: center;
+            font-size: var(--text-sm);
+            text-transform: uppercase;
+            border-left: 1px solid var(--border-primary);
+            color: var(--text-secondary);
+        }
+        .nav-links a:hover { background: var(--bg-surface-hover); color: var(--accent-primary); }
+
+        /* Hero */
+        .hero { display: grid; grid-template-columns: 2fr 1fr; border-bottom: 1px solid var(--border-primary); }
+        .hero-content { padding: var(--sp-16) var(--sp-8); border-right: 1px solid var(--border-primary); }
+        .hero-name { font-size: var(--text-4xl); margin: var(--sp-4) 0; color: var(--text-primary); }
+        .hero-name .scramble { color: var(--accent-primary); }
+        .hero-sub { font-size: var(--text-xl); color: var(--text-secondary); margin-bottom: var(--sp-6); font-weight: 300; }
+        .hero-bio { max-width: 65ch; color: var(--text-secondary); margin-bottom: var(--sp-8); font-size: var(--text-base); }
+        .hero-actions { display: flex; gap: var(--sp-4); flex-wrap: wrap; }
+
+        .hero-visual {
+            padding: var(--sp-8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: repeating-linear-gradient(-45deg, var(--bg-base), var(--bg-base) 10px, var(--bg-surface) 10px, var(--bg-surface) 20px);
+            position: relative;
+        }
+
+        .hero-visual::after {
+            content: 'SYS.ACTIVE';
+            position: absolute;
+            bottom: var(--sp-4); right: var(--sp-4);
+            font-size: var(--text-xs);
+            color: var(--accent-primary);
+            background: var(--bg-base);
+            padding: 2px 6px;
+            border: 1px solid var(--accent-primary);
+        }
+
+        .avatar-glitch {
+            font-family: var(--font-display);
+            font-size: 8rem; font-weight: 700; line-height: 1;
+            color: var(--bg-base);
+            -webkit-text-stroke: 2px var(--accent-primary);
+        }
+
+        /* Sections */
+        .section-header { padding: var(--sp-8); border-bottom: 1px solid var(--border-primary); background: var(--bg-surface); }
+        .section-header h2 { font-size: var(--text-3xl); margin-top: var(--sp-2); }
+
+        .skills-grid {
+            display: flex; flex-wrap: wrap; padding: var(--sp-8); gap: var(--sp-4);
+            border-bottom: 1px solid var(--border-primary);
+        }
+
+        .skill-tag {
+            border: 1px solid var(--border-highlight);
+            padding: var(--sp-2) var(--sp-4);
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+            background: var(--bg-surface);
+            transition: all var(--transition-fast);
+        }
+
+        .skill-tag:hover {
+            border-color: var(--accent-primary); color: var(--accent-primary);
+            background: var(--accent-bg);
+            transform: translateY(-2px);
+            box-shadow: 4px 4px 0 var(--border-primary);
+        }
+
+        .pgrid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            border-bottom: 1px solid var(--border-primary);
+        }
+
+        .pcard {
+            border-right: 1px solid var(--border-primary);
+            border-bottom: 1px solid var(--border-primary);
+            padding: var(--sp-6);
+            display: flex; flex-direction: column; gap: var(--sp-4);
+            background: var(--bg-base);
+            transition: background var(--transition-fast);
+            position: relative;
+        }
+        .pcard:hover { background: var(--bg-surface); }
+
+        .pcard.featured::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px;
+            background: var(--accent-primary);
+        }
+
+        .pcard-head { display: flex; justify-content: space-between; align-items: flex-start; }
+        .ptitle { font-size: var(--text-xl); font-family: var(--font-display); margin-bottom: var(--sp-1); }
+        .p-featured-badge {
+            font-size: 0.65rem; padding: 2px 6px; background: var(--accent-primary);
+            color: var(--bg-base); text-transform: uppercase; font-weight: 700;
+            display: inline-block; margin-bottom: var(--sp-2);
+        }
+        .plang { font-size: var(--text-xs); color: var(--text-tertiary); padding: 2px 6px; border: 1px solid var(--border-highlight); }
+        .pdesc { font-size: var(--text-sm); color: var(--text-secondary); flex: 1; }
+        .pfoot {
+            display: flex; align-items: center; justify-content: space-between;
+            border-top: 1px dotted var(--border-highlight); padding-top: var(--sp-4); margin-top: auto;
+        }
+        .plink { font-size: var(--text-xs); text-transform: uppercase; font-weight: 700; color: var(--text-primary); display: flex; align-items: center; gap: 4px; }
+        .plink:hover { color: var(--accent-primary); }
+
+        .experience { display: flex; flex-direction: column; border-bottom: 1px solid var(--border-primary); }
+        .exp-item { display: grid; grid-template-columns: 200px 1fr; border-bottom: 1px solid var(--border-primary); }
+        .exp-item:last-child { border-bottom: none; }
+        .exp-meta {
+            padding: var(--sp-6); border-right: 1px solid var(--border-primary);
+            display: flex; flex-direction: column; gap: var(--sp-2); background: var(--bg-surface);
+        }
+        .exp-date { font-size: var(--text-xs); color: var(--accent-primary); font-weight: 700; }
+        .exp-content { padding: var(--sp-6); }
+        .exp-role { font-family: var(--font-display); font-size: var(--text-xl); margin-bottom: var(--sp-1); }
+        .exp-company { color: var(--text-primary); font-weight: 700; font-size: var(--text-sm); margin-bottom: var(--sp-4); }
+        .exp-desc { color: var(--text-secondary); font-size: var(--text-sm); }
+
+        .contact-sec {
+            padding: var(--sp-16) var(--sp-8); text-align: center; border-bottom: 1px solid var(--border-primary);
+            background: repeating-linear-gradient(45deg, var(--bg-base), var(--bg-base) 10px, var(--bg-surface) 10px, var(--bg-surface) 20px);
+        }
+        .contact-sec h2 { font-size: var(--text-4xl); margin-bottom: var(--sp-4); color: var(--text-primary); }
+        .contact-sec p { color: var(--text-secondary); max-width: 60ch; margin: 0 auto var(--sp-8) auto; }
+        .contact-links { display: flex; justify-content: center; gap: var(--sp-4); flex-wrap: wrap; }
+
+        footer {
+            padding: var(--sp-6) var(--sp-8); display: flex; justify-content: space-between; align-items: center;
+            background: var(--bg-surface); font-size: var(--text-xs); color: var(--text-tertiary); text-transform: uppercase;
+        }
+
+        @media (max-width: 1024px) {
+            .hero { grid-template-columns: 1fr; }
+            .hero-visual { border-top: 1px solid var(--border-primary); padding: var(--sp-12); }
+            .exp-item { grid-template-columns: 1fr; }
+            .exp-meta { border-right: none; border-bottom: 1px solid var(--border-primary); padding: var(--sp-4) var(--sp-6); }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .hero-content { padding: var(--sp-8) var(--sp-4); }
+            .hero-name { font-size: var(--text-3xl); }
+            .section-header { padding: var(--sp-6) var(--sp-4); }
+            .pgrid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="wrapper">
+    <nav>
+        <div class="nav-inner">
+            <a href="#" class="nav-logo">
+                <span>[</span>TK<span>]</span> SYSTEM
+            </a>
+            <div class="nav-controls">
+                <div class="nav-links">
+                    <a href="#about" data-i18n="nav_about">// ABOUT</a>
+                    <a href="#skills" data-i18n="nav_skills">// SKILLS</a>
+                    <a href="#projects" data-i18n="nav_projects">// PROJECTS</a>
+                    <a href="#experience" data-i18n="nav_exp">// EXP</a>
+                    <a href="#contact" data-i18n="nav_contact">// CONTACT</a>
+                </div>
+                <!-- Language Switcher -->
+                <div class="lang-switcher">
+                    <button class="lang-btn active" onclick="setLang('fr')">FR</button>
+                    <span style="color: var(--text-tertiary);">/</span>
+                    <button class="lang-btn" onclick="setLang('en')">EN</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <header class="hero" id="about">
+        <div class="hero-content">
+            <div class="u-mono-label">Loc: Lubumbashi, DRC</div>
+            <h1 class="hero-name">Tresor <br><span class="scramble" data-value="Kaseka">Kaseka</span></h1>
+            <p class="hero-sub" data-i18n="hero_sub">Ingénieur Software & IA</p>
+            <p class="hero-bio" data-i18n="hero_bio">
+                Expertise en Intelligence Artificielle et Ingénierie Logicielle.<br><br>
+                Passionné par l'apprentissage profond (Deep Learning), les LLMs, et le déploiement applicatif robuste (React Native, Python). Je conçois et construis des systèmes intelligents à fort impact social en RDC, allant du secteur de la HealthTech jusqu'aux agents autonomes d'apprentissage par renforcement.
+            </p>
+            <div class="hero-actions">
+                <a href="mailto:tresormwavingi@gmail.com" class="btn btn-accent" data-i18n="btn_mail">
+                    Execute Mail_Init()
+                </a>
+                <a href="https://github.com/Tresorkaseka" target="_blank" rel="noopener noreferrer" class="btn" data-i18n="btn_github">
+                    Access GitHub Data
+                </a>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <div class="avatar-glitch">TK</div>
+        </div>
+    </header>
+
+    <!-- SKILLS -->
+    <section id="skills">
+        <div class="section-header">
+            <div class="u-mono-label" data-i18n="mod_01">Module 01</div>
+            <h2 data-i18n="sec_skills_title">Technologies Stack</h2>
+        </div>
+        <div class="skills-grid">
+            <span class="skill-tag">Python</span>
+            <span class="skill-tag">TypeScript</span>
+            <span class="skill-tag">React / React Native</span>
+            <span class="skill-tag">Node.js</span>
+            <span class="skill-tag">FastAPI</span>
+            <span class="skill-tag">Large Language Models (LLMs)</span>
+            <span class="skill-tag">Machine / Deep Learning</span>
+            <span class="skill-tag">RAG Architecture</span>
+            <span class="skill-tag">Reinforcement Learning</span>
+            <span class="skill-tag">Computer Vision</span>
+            <span class="skill-tag">Git/GitHub</span>
+            <span class="skill-tag">Docker</span>
+            <span class="skill-tag">SQL</span>
+        </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects">
+        <div class="section-header">
+            <div class="u-mono-label" data-i18n="mod_02">Module 02</div>
+            <h2 data-i18n="sec_proj_title">Logs de Déploiement</h2>
+        </div>
+        <div class="pgrid">
+
+            <a href="https://github.com/Tresorkaseka" target="_blank" rel="noopener noreferrer" class="pcard featured">
+                <div class="pcard-head">
+                    <div>
+                        <span class="p-featured-badge">Core System</span>
+                        <h3 class="ptitle">AfiaLink</h3>
+                    </div>
+                    <span class="plang">TS / React Native / AI</span>
+                </div>
+                <p class="pdesc" data-i18n="proj_afia">Plateforme complète de télémédecine augmentée par IA pensée pour la RDC. Analyse diagnostique et accompagnement patient fluide.</p>
+                <div class="pfoot">
+                    <span style="font-size: 0.65rem; color: var(--accent-primary);" data-i18n="stat_active">STATUS: ACTIVE_DEV</span>
+                    <span class="plink" data-i18n="btn_view">VIEW SOURCE &rarr;</span>
+                </div>
+            </a>
+
+            <a href="https://github.com/Tresorkaseka/jeu-echecs-DQN" target="_blank" rel="noopener noreferrer" class="pcard">
+                <div class="pcard-head">
+                    <h3 class="ptitle">jeu-echecs-DQN</h3>
+                    <span class="plang">Python</span>
+                </div>
+                <p class="pdesc" data-i18n="proj_rl">Algorithme de Deep Q-Network. Agent IA autonome qui optimise ses processus décisionnels par l'apprentissage profond sur des parties d'échecs.</p>
+                <div class="pfoot">
+                    <span style="font-size: 0.65rem; color: var(--text-tertiary);">STATUS: STABLE</span>
+                    <span class="plink" data-i18n="btn_view">VIEW SOURCE &rarr;</span>
+                </div>
+            </a>
+
+            <a href="https://github.com/Tresorkaseka/chatbot-diagnostic" target="_blank" rel="noopener noreferrer" class="pcard">
+                <div class="pcard-head">
+                    <h3 class="ptitle">chatbot-diagnostic</h3>
+                    <span class="plang">Python</span>
+                </div>
+                <p class="pdesc" data-i18n="proj_med_nlp">Modèle de Natural Language Processing affûté à l'analyse sémantique des symptômes médicaux interactifs des utilisateurs.</p>
+                <div class="pfoot">
+                    <span style="font-size: 0.65rem; color: var(--text-tertiary);">STATUS: STABLE</span>
+                    <span class="plink" data-i18n="btn_view">VIEW SOURCE &rarr;</span>
+                </div>
+            </a>
+
+            <a href="https://github.com/Tresorkaseka/chatbot_sms" target="_blank" rel="noopener noreferrer" class="pcard">
+                <div class="pcard-head">
+                    <h3 class="ptitle">chatbot_sms</h3>
+                    <span class="plang">TypeScript</span>
+                </div>
+                <p class="pdesc" data-i18n="proj_sms">Solution architecturale hybride pour un assistant textuel déployé sans connexion data. Désenclavement numérique des environnements africains.</p>
+                <div class="pfoot">
+                    <span style="font-size: 0.65rem; color: var(--text-tertiary);">STATUS: STABLE</span>
+                    <span class="plink" data-i18n="btn_view">VIEW SOURCE &rarr;</span>
+                </div>
+            </a>
+
+            <a href="https://github.com/Tresorkaseka/Ai-vigilance" target="_blank" rel="noopener noreferrer" class="pcard">
+                <div class="pcard-head">
+                    <h3 class="ptitle">Ai-vigilance</h3>
+                    <span class="plang">Python</span>
+                </div>
+                <p class="pdesc" data-i18n="proj_vigilance">Module de détection automatique d'anomalies sur les flux de données (industriels ou médicaux) par analyse algorithmique de variance.</p>
+                <div class="pfoot">
+                    <span style="font-size: 0.65rem; color: var(--text-tertiary);">STATUS: STABLE</span>
+                    <span class="plink" data-i18n="btn_view">VIEW SOURCE &rarr;</span>
+                </div>
+            </a>
+
+            <a href="https://github.com/Tresorkaseka/Flashnotify" target="_blank" rel="noopener noreferrer" class="pcard">
+                <div class="pcard-head">
+                    <h3 class="ptitle">Flashnotify</h3>
+                    <span class="plang">Python</span>
+                </div>
+                <p class="pdesc" data-i18n="proj_flash">Pipeline de distribution de hooks et websockets pour la transmission garantie et instantanée de paquets d'alertes multi-canal.</p>
+                <div class="pfoot">
+                    <span style="font-size: 0.65rem; color: var(--text-tertiary);">STATUS: STABLE</span>
+                    <span class="plink" data-i18n="btn_view">VIEW SOURCE &rarr;</span>
+                </div>
+            </a>
+
+        </div>
+        <!-- Link to all github projects -->
+        <div style="padding: var(--sp-6); text-align: center; border-bottom: 1px solid var(--border-primary);">
+            <a href="https://github.com/Tresorkaseka" target="_blank" rel="noopener noreferrer" class="btn" data-i18n="btn_gh_all">
+                [+] View All 28 Entries on GitHub
+            </a>
+        </div>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section id="experience">
+        <div class="section-header">
+            <div class="u-mono-label" data-i18n="mod_03">Module 03</div>
+            <h2 data-i18n="sec_exp_title">Timeline Data</h2>
+        </div>
+        <div class="experience">
+            
+            <div class="exp-item">
+                <div class="exp-meta">
+                    <span class="exp-date" data-i18n="exp_date_pres">2025 — PRESENT</span>
+                    <span style="font-size: 0.7rem; color: var(--text-secondary);">ENV: RDC</span>
+                </div>
+                <div class="exp-content">
+                    <h3 class="exp-role" data-i18n="exp_afia_role">Fondateur & Lead Dev IA</h3>
+                    <div class="exp-company">AfiaLink — Télémédecine IA</div>
+                    <p class="exp-desc" data-i18n="exp_afia_desc">Conception de l'architecture logicielle complète et déploiement des modèles d'IA diagnostique intégrés au front-end mobile React Native.</p>
+                </div>
+            </div>
+
+            <div class="exp-item">
+                <div class="exp-meta">
+                    <span class="exp-date">MAI — JUIN 2025</span>
+                    <span style="font-size: 0.7rem; color: var(--text-secondary);">ENV: LUBUMBASHI</span>
+                </div>
+                <div class="exp-content">
+                    <h3 class="exp-role">App Developer / R&D</h3>
+                    <div class="exp-company">Gécamines SA</div>
+                    <p class="exp-desc" data-i18n="exp_gecam_desc">Participation aux processus de développement d'applications système dans l'optique d'instrumenter les secteurs miniers vitaux de la RDC.</p>
+                </div>
+            </div>
+
+            <div class="exp-item">
+                <div class="exp-meta">
+                    <span class="exp-date" data-i18n="exp_date_acad">2026 — PRESENT</span>
+                    <span style="font-size: 0.7rem; color: var(--text-secondary);">ENV: ACADEMIC</span>
+                </div>
+                <div class="exp-content">
+                    <h3 class="exp-role" data-i18n="exp_acad_role">Chercheur en Fin d'Études</h3>
+                    <div class="exp-company">Université — Informatique, Lubumbashi</div>
+                    <p class="exp-desc" data-i18n="exp_acad_desc">Recherche avancée sur les LLMs et les pipelines RAG. Investigation éthique et algorithmique dans le cadre d'une modélisation de décision automatisée.</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="contact-sec">
+        <h2 data-i18n="contact_init">Initiate Contact Sequence</h2>
+        <p data-i18n="contact_desc">Ouvert aux opportunités d'Ingénierie IA, Développement Logiciel ou de Recherche Collaboratives. Déploiement robuste depuis Lubumbashi, RDC — connexion distante disponible globale.</p>
+        <div class="contact-links">
+            <a href="mailto:tresormwavingi@gmail.com" class="btn btn-accent" data-i18n="btn_ext_mail">
+                [email]
+            </a>
+            <a href="https://www.linkedin.com/in/tresor-kaseka-23563a250/" target="_blank" rel="noopener noreferrer" class="btn">
+                [linkedin]
+            </a>
+            <a href="https://github.com/Tresorkaseka" target="_blank" rel="noopener noreferrer" class="btn">
+                [github]
+            </a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div>SYS.ID: 2026 // LUBUMBASHI, RDC</div>
+        <div>691 COMMITS_LY // 28 REPOS</div>
+    </footer>
+</div>
+
+<script>
+    // Hacker Text Scrambling Effect for the Hero Name
+    const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$*&%";
+    
+    document.querySelectorAll('.scramble').forEach(element => {
+        element.onmouseover = event => {
+            let iterations = 0;
+            const interval = setInterval(() => {
+                event.target.innerText = event.target.innerText.split("")
+                    .map((letter, index) => {
+                        if(index < iterations) return event.target.dataset.value[index];
+                        return letters[Math.floor(Math.random() * 42)];
+                    }).join("");
+                
+                if(iterations >= event.target.dataset.value.length) {
+                    clearInterval(interval);
+                }
+                iterations += 1 / 3;
+            }, 30);
+        }
+    });
+
+    // i18n Translation Dictionary
+    const translations = {
+        fr: {
+            nav_about: "// À PROPOS",
+            nav_skills: "// COMPÉTENCES",
+            nav_projects: "// PROJETS",
+            nav_exp: "// EXP",
+            nav_contact: "// CONTACT",
+            hero_sub: "Ingénieur Software & IA",
+            hero_bio: "Expertise en Intelligence Artificielle et Ingénierie Logicielle.<br><br>Passionné par l'apprentissage profond (Deep Learning), les LLMs, et le déploiement applicatif robuste (React Native, Python). Je conçois et construis des systèmes intelligents à fort impact social en RDC, allant du secteur de la HealthTech (AfiaLink) jusqu'aux agents autonomes d'apprentissage par renforcement.",
+            btn_mail: "Exécuter Mail_Init()",
+            btn_github: "Accéder aux Données GitHub",
+            mod_01: "Module 01",
+            sec_skills_title: "Stack Technologique",
+            mod_02: "Module 02",
+            sec_proj_title: "Logs de Déploiement",
+            stat_active: "STATUT: DEV_ACTIF",
+            btn_view: "CODE SOURCE &rarr;",
+            proj_afia: "Plateforme complète de télémédecine augmentée par IA pensée pour la RDC. Architecture fullstack avec IA diagnostique intégrée.",
+            proj_rl: "Algorithme de Deep Q-Network. Agent IA autonome qui optimise ses processus décisionnels par l'apprentissage profond sur des parties d'échecs.",
+            proj_med_nlp: "Modèle de Natural Language Processing affûté à l'analyse sémantique des symptômes médicaux interactifs des utilisateurs.",
+            proj_sms: "Solution architecturale hybride pour un assistant textuel déployé sans connexion data. Désenclavement numérique des environnements africains.",
+            proj_vigilance: "Module de détection automatique d'anomalies sur les flux de données (industriels ou médicaux) par analyse algorithmique de variance.",
+            proj_flash: "Pipeline de distribution pour la transmission garantie et instantanée de paquets d'alertes via websockets et hooks.",
+            btn_gh_all: "[+] Voir les 28 Entrées sur GitHub",
+            mod_03: "Module 03",
+            sec_exp_title: "Données Chronologiques",
+            exp_date_pres: "2025 — PRÉSENT",
+            exp_afia_role: "Fondateur & Lead Dev IA",
+            exp_afia_desc: "Conception de l'architecture logicielle complète et entraînement des modèles d'IA (NLP & Computer Vision) intégrés au réseau de praticiens.",
+            exp_gecam_desc: "Participation aux processus de développement d'applications système dans l'optique d'instrumenter informatiquement les secteurs miniers de la RDC.",
+            exp_date_acad: "2026 — PRÉSENT",
+            exp_acad_role: "Chercheur de Fin d'Études",
+            exp_acad_desc: "Recherche avancée sur l'intégration des LLMs et l'architecture locale RAG. Évaluation déontologique de la décision algorithmique.",
+            contact_init: "Initier la Séquence de Contact",
+            contact_desc: "Ouvert aux opportunités d'Ingénierie IA, Développement Logiciel ou de Recherche. Déploiement robuste depuis Lubumbashi, RDC — disponibilité distante globale.",
+            btn_ext_mail: "[email]"
+        },
+        en: {
+            nav_about: "// ABOUT",
+            nav_skills: "// SKILLS",
+            nav_projects: "// PROJECTS",
+            nav_exp: "// EXP",
+            nav_contact: "// CONTACT",
+            hero_sub: "Software & AI Engineer",
+            hero_bio: "Expertise in Artificial Intelligence and Software Engineering.<br><br>Passionate about Deep Learning, LLMs, and building robust applications (React Native, Python). I design and build intelligent systems with high social impact in the DRC, ranging from HealthTech ecosystems to autonomous reinforcement learning agents.",
+            btn_mail: "Execute Mail_Init()",
+            btn_github: "Access GitHub Data",
+            mod_01: "Module 01",
+            sec_skills_title: "Technologies Stack",
+            mod_02: "Module 02",
+            sec_proj_title: "Deployment Logs",
+            stat_active: "STATUS: ACTIVE_DEV",
+            btn_view: "VIEW SOURCE &rarr;",
+            proj_afia: "Full AI-augmented telemedicine platform tailored for the DRC. Complete software engineering architecture including diagnostic AI modules.",
+            proj_rl: "Deep Q-Network algorithm. Autonomous AI agent capable of optimizing decision-making processes through deep learning on chess matches.",
+            proj_med_nlp: "Medical NLP system fine-tuned for semantic extraction and triage analysis of interactive user health symptoms.",
+            proj_sms: "Hybrid architectural solution deploying a conversational AI core over SMS protocols, providing critical offline access for rural environments.",
+            proj_vigilance: "Automated anomaly detection pipeline running ML algorithmic variance checks across data streams (industrial / medical).",
+            proj_flash: "High-speed webhook and multi-threaded script pipeline for guaranteed and instantaneous push notification packet distribution.",
+            btn_gh_all: "[+] View All 28 Entries on GitHub",
+            mod_03: "Module 03",
+            sec_exp_title: "Timeline Data",
+            exp_date_pres: "2025 — PRESENT",
+            exp_afia_role: "Founder & AI Lead Dev",
+            exp_afia_desc: "Full software architecture design and AI model training (NLP & Vision) deployment, connecting patients to practitioners.",
+            exp_gecam_desc: "Contributed to internal systems and application development workflows supporting heavy mining operations across DRC.",
+            exp_date_acad: "2026 — PRESENT",
+            exp_acad_role: "Graduate AI/ML Researcher",
+            exp_acad_desc: "Advanced research integrating local LLMs within RAG patterns. Evaluated ethical algorithm design during automated decision-making.",
+            contact_init: "Initiate Contact Sequence",
+            contact_desc: "Open to opportunities in AI Engineering, Fullstack Software Development, or Research. Robustly deployed from Lubumbashi, DRC — globally available remotely.",
+            btn_ext_mail: "[email]"
+        }
+    };
+
+    function setLang(langCode) {
+        // Update styling of buttons 
+        document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+        document.querySelector(`.lang-btn[onclick="setLang('${langCode}')"]`).classList.add('active');
+
+        // Swap texts
+        const dict = translations[langCode];
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            if (dict[key]) {
+                el.innerHTML = dict[key];
+            }
+        });
+        
+        // Ensure language attribute is correctly set
+        document.documentElement.lang = langCode;
+    }
+    
+    // Auto-detect browser/system lang but stick to FR if initial
+    if (navigator.language.startsWith('en')) {
+        // Optional, user explicitly asked to change to english possibly or keep FR default. 
+        // We will keep FR as default, they can just toggle the switch.
+    }
+</script>
+</body>
+</html>
