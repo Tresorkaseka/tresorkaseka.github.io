@@ -272,7 +272,13 @@
         /* Hero */
         .hero { display: grid; grid-template-columns: 2fr 1fr; border-bottom: 1px solid var(--border-primary); }
         .hero-content { padding: var(--sp-16) var(--sp-8); border-right: 1px solid var(--border-primary); }
-        .hero-name { font-size: var(--text-4xl); margin: var(--sp-4) 0; color: var(--text-primary); }
+        .hero-count { padding: var(--sp-1) var(--sp-2); border-bottom: 1px solid var(--border-primary); display: none; }
+        .hero-name { 
+            font-size: clamp(2.2rem, 10vw, 4.5rem); 
+            margin: var(--sp-4) 0; 
+            color: var(--text-primary); 
+            line-height: 1;
+        }
         .hero-name .scramble { color: var(--accent-primary); }
         .hero-sub { font-size: var(--text-xl); color: var(--text-secondary); margin-bottom: var(--sp-6); font-weight: 300; }
         .hero-bio { max-width: 65ch; color: var(--text-secondary); margin-bottom: var(--sp-8); font-size: var(--text-base); }
@@ -395,17 +401,26 @@
 
         @media (max-width: 1024px) {
             .hero { grid-template-columns: 1fr; }
-            .hero-visual { border-top: 1px solid var(--border-primary); padding: var(--sp-12); }
+            .hero-visual { border-top: 1px solid var(--border-primary); padding: var(--sp-12); order: -1; }
             .exp-item { grid-template-columns: 1fr; }
             .exp-meta { border-right: none; border-bottom: 1px solid var(--border-primary); padding: var(--sp-4) var(--sp-6); }
         }
 
         @media (max-width: 768px) {
             .nav-links { display: none; }
-            .hero-content { padding: var(--sp-8) var(--sp-4); }
-            .hero-name { font-size: var(--text-3xl); }
-            .section-header { padding: var(--sp-6) var(--sp-4); }
+            .hero-content { padding: var(--sp-8) var(--sp-6); }
+            .section-header { padding: var(--sp-6) var(--sp-6); }
             .pgrid { grid-template-columns: 1fr; }
+            .skills-grid { padding: var(--sp-6); gap: var(--sp-2); }
+        }
+
+        @media (max-width: 480px) {
+            .hero-content { padding: var(--sp-12) var(--sp-4); }
+            .section-header { padding: var(--sp-4); }
+            .nav-logo { font-size: var(--text-base); padding: 0 var(--sp-4); }
+            .hero-actions { flex-direction: column; width: 100%; }
+            .hero-actions .btn { width: 100%; justify-content: center; }
+            .footer { flex-direction: column; gap: var(--sp-4); text-align: center; }
         }
     </style>
 </head>

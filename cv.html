@@ -209,6 +209,48 @@
             text-align: justify;
         }
 
+        /* Responsive */
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .cv-container { padding: 1.5rem; }
+            
+            header {
+                grid-template-columns: 1fr;
+                text-align: left;
+                gap: 1.5rem;
+            }
+
+            .contact-info {
+                text-align: left;
+            }
+
+            .contact-item {
+                justify-content: flex-start;
+            }
+
+            .item-row {
+                grid-template-columns: 1fr;
+                gap: 0.4rem;
+                margin-bottom: 1.8rem;
+            }
+
+            .name-title h1 { font-size: 1.8rem; }
+            .section-title { font-size: 1.2rem; }
+
+            .web-controls {
+                flex-direction: row;
+                bottom: 1rem;
+                right: 1rem;
+                left: 1rem;
+            }
+
+            .btn-print, .btn-lang {
+                flex: 1;
+                padding: 0.6rem;
+                font-size: 0.7rem;
+            }
+        }
+
         /* Skills */
         .skills-grid {
             display: flex;
