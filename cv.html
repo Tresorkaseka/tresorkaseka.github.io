@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CV // Tresor Kaseka Mwavingi</title>
+    <title data-i18n="cv_title">CV // Tresor Kaseka Mwavingi</title>
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -50,29 +50,38 @@
             position: relative;
         }
 
-        /* Controls specifically for the web view */
+        /* Web controls */
         .web-controls {
             position: fixed;
             bottom: 2rem;
             right: 2rem;
             z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
         }
 
-        .btn-print {
+        .btn-print, .btn-lang {
             font-family: var(--font-mono);
             background: var(--accent-primary);
             color: var(--bg-base);
             border: none;
-            padding: 1rem 2rem;
+            padding: 0.8rem 1.5rem;
             font-weight: bold;
-            font-size: 1rem;
+            font-size: 0.8rem;
             cursor: pointer;
             text-transform: uppercase;
             box-shadow: 4px 4px 0 var(--text-primary);
-            transition: transform 0.1s;
+            transition: all 0.1s;
         }
         
-        .btn-print:active {
+        .btn-lang {
+            background: var(--bg-surface);
+            color: var(--text-primary);
+            border: 1px solid var(--border-primary);
+        }
+
+        .btn-print:active, .btn-lang:active {
             transform: translate(2px, 2px);
             box-shadow: 2px 2px 0 var(--text-primary);
         }
@@ -95,13 +104,13 @@
         }
 
         .name-title h1 {
-            font-size: 2.5rem;
+            font-size: 2.22rem;
             color: var(--accent-primary);
             margin-bottom: 0.5rem;
         }
 
         .name-title h2 {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             color: var(--text-primary);
             font-family: var(--font-mono);
             letter-spacing: 0.05em;
@@ -109,13 +118,24 @@
 
         .contact-info {
             text-align: right;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: var(--text-secondary);
         }
 
         .contact-item {
-            display: block;
-            margin-bottom: 0.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 0.6rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .contact-item svg {
+            width: 16px;
+            height: 16px;
+            stroke: var(--accent-primary);
+            fill: none;
+            stroke-width: 2;
         }
 
         .contact-item a {
@@ -133,11 +153,11 @@
         }
 
         .section-title {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             color: var(--text-primary);
             border-bottom: 1px dashed var(--border-primary);
             padding-bottom: 0.5rem;
-            margin-bottom: 1rem;
+            margin-bottom: 1.2rem;
             display: flex;
             align-items: center;
             gap: 0.5rem;
@@ -148,35 +168,30 @@
             color: var(--accent-primary);
         }
 
-        /* Profile */
-        .profile-text {
-            color: var(--text-secondary);
-            max-width: 80ch;
-        }
-
         /* Experience & Projects */
         .item-row {
             display: grid;
-            grid-template-columns: 180px 1fr;
+            grid-template-columns: 160px 1fr;
             margin-bottom: 1.5rem;
             gap: 1rem;
         }
 
         .item-meta {
             color: var(--accent-primary);
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: bold;
         }
         
         .item-env {
             display: block;
             color: var(--text-tertiary);
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             margin-top: 0.2rem;
+            text-transform: uppercase;
         }
 
         .item-title {
-            font-size: 1.1rem;
+            font-size: 1rem;
             color: var(--text-primary);
             margin-bottom: 0.25rem;
         }
@@ -191,6 +206,7 @@
         .item-desc {
             color: var(--text-secondary);
             font-size: 0.85rem;
+            text-align: justify;
         }
 
         /* Skills */
@@ -205,49 +221,34 @@
             padding: 0.25rem 0.5rem;
             font-size: 0.8rem;
             color: var(--text-secondary);
+            background: var(--bg-surface);
         }
 
         /* Print Media Query */
         @media print {
-            body {
-                background: white;
-                color: black;
-                padding: 0;
-            }
-
-            .cv-container {
-                border: none;
-                padding: 0;
-                max-width: 100%;
-            }
-
-            .web-controls {
-                display: none;
-            }
-
+            body { background: white; color: black; padding: 0; }
+            .cv-container { border: none; padding: 0; max-width: 100%; border-radius: 0; }
+            .web-controls { display: none; }
             :root {
                 --bg-base: white;
                 --text-primary: black;
-                --text-secondary: #333;
-                --text-tertiary: #666;
-                --border-primary: #ccc;
-                /* Keep accent color for print, it usually looks good */
+                --text-secondary: #222;
+                --text-tertiary: #555;
+                --border-primary: #ddd;
             }
-
-            .skill-tag {
-                border-color: #999;
-                color: black;
-            }
-            
-            .name-title h2 { color: #333; }
+            .contact-item svg { stroke: black; }
+            .skill-tag { border-color: #ccc; color: black; background: white; }
+            .section-title::before { color: black; }
+            .item-meta { color: black; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Web Control -->
+    <!-- Web Controls -->
     <div class="web-controls">
-        <button class="btn-print" onclick="window.print()">[DL_CV_PDF]</button>
+        <button class="btn-lang" id="lang-switch" onclick="switchLang()">ENGLISH</button>
+        <button class="btn-print" onclick="window.print()">[PRINT_CV]</button>
     </div>
 
     <!-- CV Document -->
@@ -256,36 +257,51 @@
         <header>
             <div class="name-title">
                 <h1>Tresor Kaseka Mwavingi</h1>
-                <h2>INGÉNIEUR SOFTWARE & IA</h2>
+                <h2 data-i18n="hero_sub">INGÉNIEUR SOFTWARE & IA</h2>
             </div>
             <div class="contact-info">
-                <span class="contact-item">📍 Lubumbashi, RDC (Globally Available)</span>
-                <span class="contact-item">📞 <a href="tel:+243907654542">+243 90 76 54 542</a></span>
-                <span class="contact-item">✉️ <a href="mailto:tresormwavingi@gmail.com">tresormwavingi@gmail.com</a></span>
-                <span class="contact-item">🔗 <a href="https://github.com/Tresorkaseka">github.com/Tresorkaseka</a></span>
-                <span class="contact-item">🔗 <a href="https://linkedin.com/in/tresor-kaseka-23563a250">linkedin.com/in/tresor-kaseka</a></span>
+                <div class="contact-item">
+                    <span data-i18n="loc">Lubumbashi, RDC (Disponible)</span>
+                    <svg viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                </div>
+                <div class="contact-item">
+                    <a href="tel:+243907654542">+243 90 76 54 542</a>
+                    <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                </div>
+                <div class="contact-item">
+                    <a href="mailto:tresormwavingi@gmail.com">tresormwavingi@gmail.com</a>
+                    <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                </div>
+                <div class="contact-item">
+                    <a href="https://linkedin.com/in/tresor-kaseka-23563a250">LinkedIn</a>
+                    <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                </div>
+                <div class="contact-item">
+                    <a href="https://github.com/Tresorkaseka">GitHub</a>
+                    <svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                </div>
             </div>
         </header>
 
         <section class="section">
-            <h3 class="section-title">Profil</h3>
-            <p class="profile-text">
-                Expertise approfondie en Intelligence Artificielle et Ingénierie Logicielle. Passionné par l'apprentissage profond (Deep Learning), les LLMs, et le déploiement applicatif fullstack (React Native, Python). Je conçois des systèmes intelligents et évolutifs à fort impact, avec une maîtrise des architectures RAG et de l'automatisation.
+            <h3 class="section-title" data-i18n="sec_profile">Profil</h3>
+            <p class="profile-text" data-i18n="cv_bio">
+                Expertise approfondie en Intelligence Artificielle et Ingénierie Logicielle. Passionné par l'apprentissage profond, les LLMs, et le déploiement applicatif fullstack. Je conçois des systèmes intelligents et évolutifs à fort impact.
             </p>
         </section>
 
         <section class="section">
-            <h3 class="section-title">Expérience Professionnelle</h3>
+            <h3 class="section-title" data-i18n="sec_exp">Expérience Professionnelle</h3>
             
             <div class="item-row">
                 <div class="item-meta">
-                    2025 — PRÉSENT
+                    <span data-i18n="exp_date_pres">2025 — PRÉSENT</span>
                     <span class="item-env">ENV: RDC (Remote/Local)</span>
                 </div>
                 <div>
-                    <h4 class="item-title">Fondateur & Lead Dev IA</h4>
+                    <h4 class="item-title" data-i18n="exp_afia_role">Fondateur & Lead Dev IA</h4>
                     <div class="item-subtitle">AfiaLink — Télémédecine IA</div>
-                    <p class="item-desc">Conception de l'architecture logicielle complète et déploiement des modèles d'IA diagnostique (NLP & Computer Vision) intégrés au front-end mobile React Native.</p>
+                    <p class="item-desc" data-i18n="exp_afia_desc_long">Conception de l'architecture logicielle complète et déploiement des modèles d'IA diagnostique (NLP & Computer Vision) intégrés au front-end mobile React Native.</p>
                 </div>
             </div>
 
@@ -297,25 +313,25 @@
                 <div>
                     <h4 class="item-title">App Developer / R&D</h4>
                     <div class="item-subtitle">Gécamines SA</div>
-                    <p class="item-desc">Participation aux processus de développement d'applications système dans l'optique d'instrumenter informatiquement les secteurs miniers vitaux de la RDC.</p>
+                    <p class="item-desc" data-i18n="exp_gecam_desc">Participation aux processus de développement d'applications système dans l'optique d'instrumenter informatiquement les secteurs miniers vitaux de la RDC.</p>
                 </div>
             </div>
 
             <div class="item-row">
                 <div class="item-meta">
-                    2026 — PRÉSENT
+                    <span data-i18n="exp_date_acad">2026 — PRÉSENT</span>
                     <span class="item-env">ENV: ACADEMIC</span>
                 </div>
                 <div>
-                    <h4 class="item-title">Chercheur en Fin d'Études</h4>
+                    <h4 class="item-title" data-i18n="exp_acad_role">Chercheur en Fin d'Études</h4>
                     <div class="item-subtitle">Université — Informatique, Lubumbashi</div>
-                    <p class="item-desc">Recherche avancée sur l'intégration des LLMs et l'architecture locale RAG. Évaluation déontologique et investigation sur la décision algorithmique automatisée.</p>
+                    <p class="item-desc" data-i18n="exp_acad_desc">Recherche avancée sur l'intégration des LLMs et l'architecture locale RAG. Évaluation déontologique et investigation sur la décision algorithmique automatisée.</p>
                 </div>
             </div>
         </section>
 
         <section class="section">
-            <h3 class="section-title">Projets Déployés (Sélection)</h3>
+            <h3 class="section-title" data-i18n="sec_proj_title">Projets Déployés</h3>
 
             <div class="item-row">
                 <div class="item-meta">
@@ -323,19 +339,19 @@
                     <span class="item-env">Ai-vigilance</span>
                 </div>
                 <div>
-                    <h4 class="item-title">Système de Détection d'Actes Dangereux</h4>
-                    <p class="item-desc">Intelligence Artificielle de pointe pour la détection en temps réel d'actes de violence et de comportements dangereux dans divers environnements surveillés.</p>
+                    <h4 class="item-title" data-i18n="proj_vigilance_title">Système de Détection d'Actes Dangereux</h4>
+                    <p class="item-desc" data-i18n="proj_vigilance">Intelligence Artificielle de pointe pour la détection en temps réel d'actes de violence et de comportements dangereux dans divers environnements surveillés.</p>
                 </div>
             </div>
 
             <div class="item-row">
                 <div class="item-meta">
-                    TECH: Python
+                    TECH: Reinforcement Learning
                     <span class="item-env">jeu-echecs-DQN</span>
                 </div>
                 <div>
-                    <h4 class="item-title">Agent IA Autonome (Deep Q-Network)</h4>
-                    <p class="item-desc">Algorithme d'apprentissage par renforcement optimisant ses processus décisionnels par l'apprentissage profond sur des parties d'échecs.</p>
+                    <h4 class="item-title" data-i18n="proj_rl_title">Agent IA Autonome (Deep Q-Network)</h4>
+                    <p class="item-desc" data-i18n="proj_rl">Algorithme d'apprentissage par renforcement optimisant ses processus décisionnels par l'apprentissage profond sur des parties d'échecs.</p>
                 </div>
             </div>
 
@@ -345,34 +361,116 @@
                     <span class="item-env">chatbot_sms</span>
                 </div>
                 <div>
-                    <h4 class="item-title">Assistant IA Hybride (Offline)</h4>
-                    <p class="item-desc">Solution architecturale déployant un assistant textuel sans connexion data, via les protocoles SMS, pour le désenclavement numérique.</p>
+                    <h4 class="item-title" data-i18n="proj_sms_title">Assistant IA Hybride (Offline)</h4>
+                    <p class="item-desc" data-i18n="proj_sms_short">Solution architecturale déployant un assistant textuel sans connexion data, via les protocoles SMS, pour le désenclavement numérique.</p>
                 </div>
             </div>
         </section>
 
         <section class="section">
-            <h3 class="section-title">Compétences Techniques</h3>
+            <h3 class="section-title" data-i18n="sec_skills_title">Compétences Techniques</h3>
             <div class="skills-grid">
                 <span class="skill-tag">Python</span>
                 <span class="skill-tag">TypeScript</span>
-                <span class="skill-tag">JavaScript</span>
                 <span class="skill-tag">React / React Native</span>
                 <span class="skill-tag">Node.js</span>
                 <span class="skill-tag">FastAPI</span>
-                <span class="skill-tag">LLMs (Large Language Models)</span>
-                <span class="skill-tag">Deep Learning / Machine Learning</span>
-                <span class="skill-tag">RAG Architecture</span>
+                <span class="skill-tag">LLMs (RAG/NLP)</span>
+                <span class="skill-tag">Deep Learning</span>
                 <span class="skill-tag">Computer Vision</span>
                 <span class="skill-tag">Docker</span>
-                <span class="skill-tag">SQL</span>
-                <span class="skill-tag">PostgreSQL</span>
+                <span class="skill-tag">SQL / PostgreSQL</span>
                 <span class="skill-tag">Supabase</span>
                 <span class="skill-tag">Git / GitHub</span>
             </div>
         </section>
 
     </div>
+
+    <script>
+        const translations = {
+            fr: {
+                cv_title: "CV // Tresor Kaseka Mwavingi",
+                hero_sub: "INGÉNIEUR SOFTWARE & IA",
+                loc: "Lubumbashi, RDC (Disponible)",
+                sec_profile: "Profil",
+                cv_bio: "Expertise approfondie en Intelligence Artificielle et Ingénierie Logicielle. Passionné par l'apprentissage profond, les LLMs, et le déploiement applicatif fullstack. Je conçois des systèmes intelligents et évolutifs à fort impact.",
+                sec_exp: "Expérience Professionnelle",
+                exp_date_pres: "2025 — PRÉSENT",
+                exp_afia_role: "Fondateur & Lead Dev IA",
+                exp_afia_desc_long: "Conception de l'architecture logicielle complète et déploiement des modèles d'IA diagnostique intégrés au front-end mobile React Native.",
+                exp_gecam_desc: "Participation aux processus de développement d'applications système dans l'optique d'instrumenter informatiquement les secteurs miniers vitaux de l'entreprise.",
+                exp_date_acad: "2026 — PRÉSENT",
+                exp_acad_role: "Chercheur en Fin d'Études",
+                exp_acad_desc: "Recherche avancée sur les LLMs et l'architecture locale RAG. Évaluation déontologique et investigation sur la décision algorithmique automatisée.",
+                sec_proj_title: "Projets Déployés",
+                proj_vigilance_title: "Système de Détection d'Actes Dangereux",
+                proj_vigilance: "Intelligence Artificielle de pointe pour la détection en temps réel d'actes de violence et de comportements dangereux dans divers environnements.",
+                proj_rl_title: "Agent IA Autonome (Deep Q-Network)",
+                proj_rl: "Algorithme d'apprentissage par renforcement optimisant ses processus décisionnels par l'apprentissage profond sur des parties d'échecs.",
+                proj_sms_title: "Assistant IA Hybride (Offline)",
+                proj_sms_short: "Assistant textuel IA déployé sans connexion data, via protocoles SMS, pour le désenclavement numérique des environnements africains.",
+                sec_skills_title: "Compétences Techniques",
+                btn_lang: "ENGLISH"
+            },
+            en: {
+                cv_title: "Resume // Tresor Kaseka Mwavingi",
+                hero_sub: "SOFTWARE & AI ENGINEER",
+                loc: "Lubumbashi, DRC (Available)",
+                sec_profile: "Profile",
+                cv_bio: "Deep expertise in Artificial Intelligence and Software Engineering. Passionate about Deep Learning, LLMs, and fullstack deployment. I design intelligent, scalable, and high-impact systems.",
+                sec_exp: "Work Experience",
+                exp_date_pres: "2025 — PRESENT",
+                exp_afia_role: "Founder & AI Lead Developer",
+                exp_afia_desc_long: "Full software architecture design and deployment of AI diagnostic models (NLP & Vision) integrated into React Native mobile front-end.",
+                exp_gecam_desc: "Contributed to internal systems and application development workflows for critical mining operations across DRC.",
+                exp_date_acad: "2026 — PRESENT",
+                exp_acad_role: "Graduate Researcher",
+                exp_acad_desc: "Advanced research integrating local LLMs within RAG patterns. Evaluated ethical algorithm design during automated decision-making.",
+                sec_proj_title: "Deployed Projects",
+                proj_vigilance_title: "Real-time Danger Detection System",
+                proj_vigilance: "State-of-the-art AI for real-time detection of violent acts and dangerous behaviors across monitored environments.",
+                proj_rl_title: "Autonomous IA Agent (Deep Q-Network)",
+                proj_rl: "Reinforcement learning agent optimizing decision-making through deep learning on competitive chess environments.",
+                proj_sms_title: "Hybrid AI Assistant (Offline)",
+                proj_sms_short: "AI text assistant deployed via SMS protocols, providing critical offline access for disconnected environments.",
+                sec_skills_title: "Technical Skills",
+                btn_lang: "FRANÇAIS"
+            }
+        };
+
+        let currentLang = 'fr';
+
+        function applyLang(lang) {
+            currentLang = lang;
+            const dict = translations[lang];
+            
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (dict[key]) {
+                    el.innerHTML = dict[key];
+                }
+            });
+            
+            document.getElementById('lang-switch').innerText = dict.btn_lang;
+            document.documentElement.lang = lang;
+            document.title = dict.cv_title;
+        }
+
+        function switchLang() {
+            const next = currentLang === 'fr' ? 'en' : 'fr';
+            applyLang(next);
+        }
+
+        // Auto-detect lang from URL param
+        const urlParams = new URLSearchParams(window.location.search);
+        const langParam = urlParams.get('lang');
+        if (langParam === 'en' || langParam === 'fr') {
+            applyLang(langParam);
+        } else {
+            applyLang('fr');
+        }
+    </script>
 
 </body>
 </html>

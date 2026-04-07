@@ -769,6 +769,11 @@
         
         // Ensure language attribute is correctly set
         document.documentElement.lang = langCode;
+
+        // Sync CV link language
+        document.querySelectorAll('a[href^="cv.html"]').forEach(link => {
+            link.href = `cv.html?lang=${langCode}`;
+        });
     }
     
     // Auto-detect browser/system lang but stick to FR if initial
