@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV // Tresor Kaseka Mwavingi</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    <link href="https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-base: #050505;
+            --bg-surface: #0a0a0b;
+            --border-primary: #27272a;
+            --text-primary: #fafafa;
+            --text-secondary: #a1a1aa;
+            --text-tertiary: #52525b;
+            --accent-primary: #eab308;
+            --font-mono: 'JetBrains Mono', monospace;
+            --font-display: 'Clash Display', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-mono);
+            background-color: var(--bg-base);
+            color: var(--text-primary);
+            line-height: 1.5;
+            font-size: 0.9rem;
+            padding: 2rem;
+            display: flex;
+            justify-content: center;
+        }
+
+        .cv-container {
+            width: 100%;
+            max-width: 900px;
+            background: var(--bg-base);
+            border: 1px solid var(--border-primary);
+            padding: 3rem;
+            position: relative;
+        }
+
+        /* Controls specifically for the web view */
+        .web-controls {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 100;
+        }
+
+        .btn-print {
+            font-family: var(--font-mono);
+            background: var(--accent-primary);
+            color: var(--bg-base);
+            border: none;
+            padding: 1rem 2rem;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            box-shadow: 4px 4px 0 var(--text-primary);
+            transition: transform 0.1s;
+        }
+        
+        .btn-print:active {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0 var(--text-primary);
+        }
+
+        h1, h2, h3, h4 {
+            font-family: var(--font-display);
+            text-transform: uppercase;
+            font-weight: 600;
+            line-height: 1.1;
+        }
+
+        /* Header */
+        header {
+            border-bottom: 2px solid var(--accent-primary);
+            padding-bottom: 1.5rem;
+            margin-bottom: 1.5rem;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 1rem;
+        }
+
+        .name-title h1 {
+            font-size: 2.5rem;
+            color: var(--accent-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .name-title h2 {
+            font-size: 1.2rem;
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            letter-spacing: 0.05em;
+        }
+
+        .contact-info {
+            text-align: right;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .contact-item {
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .contact-item a {
+            color: inherit;
+            text-decoration: none;
+        }
+        
+        .contact-item a:hover {
+            color: var(--accent-primary);
+        }
+
+        /* Sections */
+        .section {
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            border-bottom: 1px dashed var(--border-primary);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-title::before {
+            content: '>>';
+            color: var(--accent-primary);
+        }
+
+        /* Profile */
+        .profile-text {
+            color: var(--text-secondary);
+            max-width: 80ch;
+        }
+
+        /* Experience & Projects */
+        .item-row {
+            display: grid;
+            grid-template-columns: 180px 1fr;
+            margin-bottom: 1.5rem;
+            gap: 1rem;
+        }
+
+        .item-meta {
+            color: var(--accent-primary);
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .item-env {
+            display: block;
+            color: var(--text-tertiary);
+            font-size: 0.7rem;
+            margin-top: 0.2rem;
+        }
+
+        .item-title {
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .item-subtitle {
+            font-size: 0.85rem;
+            color: var(--text-primary);
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .item-desc {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        /* Skills */
+        .skills-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .skill-tag {
+            border: 1px solid var(--border-primary);
+            padding: 0.25rem 0.5rem;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        /* Print Media Query */
+        @media print {
+            body {
+                background: white;
+                color: black;
+                padding: 0;
+            }
+
+            .cv-container {
+                border: none;
+                padding: 0;
+                max-width: 100%;
+            }
+
+            .web-controls {
+                display: none;
+            }
+
+            :root {
+                --bg-base: white;
+                --text-primary: black;
+                --text-secondary: #333;
+                --text-tertiary: #666;
+                --border-primary: #ccc;
+                /* Keep accent color for print, it usually looks good */
+            }
+
+            .skill-tag {
+                border-color: #999;
+                color: black;
+            }
+            
+            .name-title h2 { color: #333; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Web Control -->
+    <div class="web-controls">
+        <button class="btn-print" onclick="window.print()">[DL_CV_PDF]</button>
+    </div>
+
+    <!-- CV Document -->
+    <div class="cv-container">
+        
+        <header>
+            <div class="name-title">
+                <h1>Tresor Kaseka Mwavingi</h1>
+                <h2>INGÉNIEUR SOFTWARE & IA</h2>
+            </div>
+            <div class="contact-info">
+                <span class="contact-item">📍 Lubumbashi, RDC (Globally Available)</span>
+                <span class="contact-item">📞 <a href="tel:+243907654542">+243 90 76 54 542</a></span>
+                <span class="contact-item">✉️ <a href="mailto:tresormwavingi@gmail.com">tresormwavingi@gmail.com</a></span>
+                <span class="contact-item">🔗 <a href="https://github.com/Tresorkaseka">github.com/Tresorkaseka</a></span>
+                <span class="contact-item">🔗 <a href="https://linkedin.com/in/tresor-kaseka-23563a250">linkedin.com/in/tresor-kaseka</a></span>
+            </div>
+        </header>
+
+        <section class="section">
+            <h3 class="section-title">Profil</h3>
+            <p class="profile-text">
+                Expertise approfondie en Intelligence Artificielle et Ingénierie Logicielle. Passionné par l'apprentissage profond (Deep Learning), les LLMs, et le déploiement applicatif fullstack (React Native, Python). Je conçois des systèmes intelligents et évolutifs à fort impact, avec une maîtrise des architectures RAG et de l'automatisation.
+            </p>
+        </section>
+
+        <section class="section">
+            <h3 class="section-title">Expérience Professionnelle</h3>
+            
+            <div class="item-row">
+                <div class="item-meta">
+                    2025 — PRÉSENT
+                    <span class="item-env">ENV: RDC (Remote/Local)</span>
+                </div>
+                <div>
+                    <h4 class="item-title">Fondateur & Lead Dev IA</h4>
+                    <div class="item-subtitle">AfiaLink — Télémédecine IA</div>
+                    <p class="item-desc">Conception de l'architecture logicielle complète et déploiement des modèles d'IA diagnostique (NLP & Computer Vision) intégrés au front-end mobile React Native.</p>
+                </div>
+            </div>
+
+            <div class="item-row">
+                <div class="item-meta">
+                    MAI — JUIN 2025
+                    <span class="item-env">ENV: LUBUMBASHI</span>
+                </div>
+                <div>
+                    <h4 class="item-title">App Developer / R&D</h4>
+                    <div class="item-subtitle">Gécamines SA</div>
+                    <p class="item-desc">Participation aux processus de développement d'applications système dans l'optique d'instrumenter informatiquement les secteurs miniers vitaux de la RDC.</p>
+                </div>
+            </div>
+
+            <div class="item-row">
+                <div class="item-meta">
+                    2026 — PRÉSENT
+                    <span class="item-env">ENV: ACADEMIC</span>
+                </div>
+                <div>
+                    <h4 class="item-title">Chercheur en Fin d'Études</h4>
+                    <div class="item-subtitle">Université — Informatique, Lubumbashi</div>
+                    <p class="item-desc">Recherche avancée sur l'intégration des LLMs et l'architecture locale RAG. Évaluation déontologique et investigation sur la décision algorithmique automatisée.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h3 class="section-title">Projets Déployés (Sélection)</h3>
+
+            <div class="item-row">
+                <div class="item-meta">
+                    TECH: Python
+                    <span class="item-env">Ai-vigilance</span>
+                </div>
+                <div>
+                    <h4 class="item-title">Système de Détection d'Actes Dangereux</h4>
+                    <p class="item-desc">Intelligence Artificielle de pointe pour la détection en temps réel d'actes de violence et de comportements dangereux dans divers environnements surveillés.</p>
+                </div>
+            </div>
+
+            <div class="item-row">
+                <div class="item-meta">
+                    TECH: Python
+                    <span class="item-env">jeu-echecs-DQN</span>
+                </div>
+                <div>
+                    <h4 class="item-title">Agent IA Autonome (Deep Q-Network)</h4>
+                    <p class="item-desc">Algorithme d'apprentissage par renforcement optimisant ses processus décisionnels par l'apprentissage profond sur des parties d'échecs.</p>
+                </div>
+            </div>
+
+            <div class="item-row">
+                <div class="item-meta">
+                    TECH: TypeScript
+                    <span class="item-env">chatbot_sms</span>
+                </div>
+                <div>
+                    <h4 class="item-title">Assistant IA Hybride (Offline)</h4>
+                    <p class="item-desc">Solution architecturale déployant un assistant textuel sans connexion data, via les protocoles SMS, pour le désenclavement numérique.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h3 class="section-title">Compétences Techniques</h3>
+            <div class="skills-grid">
+                <span class="skill-tag">Python</span>
+                <span class="skill-tag">TypeScript</span>
+                <span class="skill-tag">JavaScript</span>
+                <span class="skill-tag">React / React Native</span>
+                <span class="skill-tag">Node.js</span>
+                <span class="skill-tag">FastAPI</span>
+                <span class="skill-tag">LLMs (Large Language Models)</span>
+                <span class="skill-tag">Deep Learning / Machine Learning</span>
+                <span class="skill-tag">RAG Architecture</span>
+                <span class="skill-tag">Computer Vision</span>
+                <span class="skill-tag">Docker</span>
+                <span class="skill-tag">SQL</span>
+                <span class="skill-tag">PostgreSQL</span>
+                <span class="skill-tag">Supabase</span>
+                <span class="skill-tag">Git / GitHub</span>
+            </div>
+        </section>
+
+    </div>
+
+</body>
+</html>
